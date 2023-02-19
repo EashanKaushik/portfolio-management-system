@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
+ENV_PATH = os.path.join(os.path.dirname(__file__), "env", "prod.env")
+
+load_dotenv(ENV_PATH)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,13 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-1t*&a#0d8izzew&@q+ou1-=$k3zoc1p^g-#$0u3j_7uhi=hn+x"
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "develop-applicaiton.eba-dwgyps6y.us-west-2.elasticbeanstalk.com"]
+    "develop-applicaiton.eba-dwgyps6y.us-west-2.elasticbeanstalk.com", "127.0.0.1"]
 
 
 # Application definition
