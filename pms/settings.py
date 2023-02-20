@@ -18,17 +18,20 @@ import os
 # ENV_PATH = os.path.join(os.path.dirname(__file__), "env", "prod.env")
 
 
-class BranchCheck:
-    def __init__(self):
-        self.branches = git.Git().branch().split()
-
-    def current_branch(self):
-        return self.branches[self.branches.index("*") + 1]
-
-
 CURRENT_BRANCH = None
 
 try:
+
+    import git
+
+    class BranchCheck:
+
+        def __init__(self):
+            self.branches = git.Git().branch().split()
+
+        def current_branch(self):
+            return self.branches[self.branches.index("*") + 1]
+
     CURRENT_BRANCH = BranchCheck().current_branch()
     load_dotenv(os.path.join(os.path.dirname(__file__),
                 "env", f"{CURRENT_BRANCH}.env"))
