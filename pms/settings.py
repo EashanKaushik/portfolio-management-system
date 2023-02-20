@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+# from .cdn.conf import *
 from pathlib import Path
 from dotenv import load_dotenv
 import os
@@ -62,13 +63,17 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
-    "home.apps.HomeConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # Third Party
+    "storages",
+    # Apps
+    "home.apps.HomeConfig",
 ]
 
 MIDDLEWARE = [
@@ -158,7 +163,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
+AWS_ACCESS_KEY_ID = os.environ.get("DIGITAL_OCEAN_KEY")
+AWS_SECRET_ACCESS_KEY = os.environ.get("DIGITAL_OCEAN_SECRET")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("STORAGE_BUCKET_NAME")
+AWS_S3_ENDPOINT_URL = f"https://{os.environ.get('DIGITAL_OCEAN_S3_ENDPOINT_URL')}"
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=100"
+}
+AWS_LOCATION = f"https://{os.environ.get('STORAGE_BUCKET_NAME')}.{os.environ.get('DIGITAL_OCEAN_S3_ENDPOINT_URL')}"
+
+DEFAULT_FILE_STORAGE = "pms.cdn.backends.MediaRootS3Boto3Storage"
+
+STATICFILES_STORAGE = "pms.cdn.backends.StaticRootS3Boto3Storage"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
