@@ -12,11 +12,30 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+import git
 import os
 
-ENV_PATH = os.path.join(os.path.dirname(__file__), "env", "prod.env")
+# ENV_PATH = os.path.join(os.path.dirname(__file__), "env", "prod.env")
 
-load_dotenv(ENV_PATH)
+
+class BranchCheck:
+    def __init__(self):
+        self.branches = git.Git().branch().split()
+
+    def current_branch(self):
+        return self.branches[self.branches.index("*") + 1]
+
+
+CURRENT_BRANCH = None
+
+try:
+    CURRENT_BRANCH = BranchCheck().current_branch()
+    load_dotenv(os.path.join(os.path.dirname(__file__),
+                "env", f"{CURRENT_BRANCH}.env"))
+except Exception as ex:
+    print("Git doesnt exist")
+    load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,8 +49,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "develop-applicaiton.eba-dwgyps6y.us-west-2.elasticbeanstalk.com", "127.0.0.1"]
+if DEBUG:
+    ALLOWED_HOSTS = [
+        os.environ.get("ALLOWED_HOSTS"), "127.0.0.1"]
+else:
+    ALLOWED_HOSTS = [
+        os.environ.get("ALLOWED_HOSTS")]
 
 
 # Application definition
