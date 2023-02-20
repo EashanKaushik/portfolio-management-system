@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
-import git
 import os
 
 # ENV_PATH = os.path.join(os.path.dirname(__file__), "env", "prod.env")
