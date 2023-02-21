@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main Title</title>
+
+    {% block stylesheetone %} {% endblock stylesheetone %} 
+    
+    {% block stylesheettwo %} {% endblock stylesheettwo %}
+
+    {% block navbar-style %}{% endblock navbar-style %}
+
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}"/>
+  </head>
+  <body>
+
+    {% block content %}
+
+    {% endblock content %}
+
+        
+    {% block scriptone %}{% endblock scriptone %}
+
+    {% block scripttwo %}{% endblock scripttwo %}
+
+  </body>
+</html>
